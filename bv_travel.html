@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BondVoyage │ Travel</title>
+    <link rel="stylesheet" href="bv_travel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="favicon-32x32.png" type="image/png">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <img src="bv_logo.png" alt="Logo" class="logo-img">
+            </div>
+            <ul class="menu">
+                <li>
+                    <a href="bv_home.html">
+                        <img src="bv_home.png" alt="Home Icon"><span>Home</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="bv_travel.html">
+                        <img src="bv_travel.png" alt="Travel Icon"><span>Travel</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="bv_weather.html">
+                        <img src="bv_weather.png" alt="Weather Icon"><span>Weather</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="bv_translate.html">
+                        <img src="bv_translate.png" alt="Translate Icon"><span>Translate</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="bv_more.html">
+                        <img src="bv_more.png" alt="More Icon"><span>More</span>
+                    </a>
+                </li>
+            </ul>            
+        </nav>
+        <main class="content">
+            <img src="travel_title.png" alt="Travel Title" class="travel-img">
+            <div class="travel-container">
+                <h1>My Travels</h1>
+                <div class="travel-widgets">
+                    
+                    <div class="travel-widget add-travel" id="add-travel">
+                        <i class="fa fa-plus"></i>
+                        <span>Add Travel</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for Adding Travel -->
+    <div class="modal" id="travel-modal">
+        <div class="modal-content">
+            <h2>Enter Travel Name</h2>
+            <input type="text" id="travel-name" placeholder="Travel Name">
+            <button id="save-travel">Save</button>
+            <button id="close-modal">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Modal for Editing Travel -->
+    <div class="modal" id="edit-modal">
+        <div class="modal-content">
+            <h2>Edit Travel Name</h2>
+            <input type="text" id="edit-travel-name" placeholder="New Travel Name">
+            <button id="save-edit">Save</button>
+            <button id="close-edit-modal">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality for Adding Travel
+        const addTravelBtn = document.getElementById('add-travel');
+        const modal = document.getElementById('travel-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const saveTravelBtn = document.getElementById('save-travel');
+        const travelNameInput = document.getElementById('travel-name');
+        const travelWidgetsContainer = document.querySelector('.travel-widgets');
+
+        addTravelBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        saveTravelBtn.addEventListener('click', () => {
+            const travelName = travelNameInput.value.trim();
+            if (travelName) {
+                // Create the new travel widget
+                const travelWidget = document.createElement('div');
+                travelWidget.classList.add('travel-widget');
+                travelWidget.innerHTML = `
+                    <img src="bv_logo.png" alt="Travel Logo" class="travel-logo">
+                    <span class="travel-name">${travelName}</span>
+                    <i class="fa fa-ellipsis-v more-options"></i>
+                    <div class="options-menu">
+                        <button class="edit">Edit</button>
+                        <button class="delete">Delete</button>
+                    </div>
+                `;
+                travelWidgetsContainer.appendChild(travelWidget);
+
+                // Add event listeners for the options menu
+                const moreOptions = travelWidget.querySelector('.more-options');
+                const optionsMenu = travelWidget.querySelector('.options-menu');
+
+                moreOptions.addEventListener('click', () => {
+                    optionsMenu.classList.toggle('show');
+                });
+
+                const deleteBtn = travelWidget.querySelector('.delete');
+                deleteBtn.addEventListener('click', () => {
+                    travelWidget.remove();
+                });
+
+                // Edit functionality (opens the edit modal)
+                const editBtn = travelWidget.querySelector('.edit');
+                editBtn.addEventListener('click', () => {
+                    const travelNameToEdit = travelWidget.querySelector('.travel-name').textContent;
+                    document.getElementById('edit-travel-name').value = travelNameToEdit; // Pre-fill input with current name
+                    document.getElementById('edit-modal').style.display = 'block'; // Show the edit modal
+                    document.getElementById('save-edit').onclick = function() {
+                        const newTravelName = document.getElementById('edit-travel-name').value.trim();
+                        if (newTravelName) {
+                            travelWidget.querySelector('.travel-name').textContent = newTravelName;
+                            document.getElementById('edit-modal').style.display = 'none';
+                        }
+                    };
+                });
+
+                // Close the modal and clear the input
+                modal.style.display = 'none';
+                travelNameInput.value = '';
+            }
+        });
+
+        // Close Edit Modal
+        const closeEditModalBtn = document.getElementById('close-edit-modal');
+        closeEditModalBtn.addEventListener('click', () => {
+            document.getElementById('edit-modal').style.display = 'none';
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get the current URL path
+            const currentPath = window.location.pathname;
+
+            // Select all <a> elements in the sidebar
+            const menuLinks = document.querySelectorAll('.menu a');
+
+            // Loop through the links and compare their href with the current path
+            menuLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    // Add the active class to the parent <li>
+                    link.parentElement.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
