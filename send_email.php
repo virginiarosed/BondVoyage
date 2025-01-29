@@ -17,19 +17,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->isSMTP(); 
         $mail->Host = 'smtp.gmail.com'; 
         $mail->SMTPAuth = true; 
-        $mail->Username = 'bondvoyage.system@gmail.com'; 
-        $mail->Password = 'uqsk liyv dwlz ujst'; 
+        $mail->Username = 'roammate.system@gmail.com'; 
+        $mail->Password = 'nzob xalg skhv qmut'; 
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; 
         $mail->Port = 587; 
 
         // Recipients
-        $mail->setFrom('bondvoyage.system@gmail.com', $name); 
-        $mail->addAddress('bondvoyage.system@gmail.com'); 
+        $mail->setFrom('roammate.system@gmail.com', $name); 
+        $mail->addAddress('roammate.system@gmail.com'); 
 
         // Content
         $mail->isHTML(false); 
-        $mail->Subject = 'Message from BondVoyage Contact Form';
-        $mail->Body    = "You have received a new message from the contact form on your BondVoyage system.\n\n";
+        $mail->Subject = 'Message from RoamMate Contact Form';
+        $mail->Body    = "You have received a new message from the contact form on your RoamMate system.\n\n";
         $mail->Body   .= "Name: $name\n";
         $mail->Body   .= "Email: $email\n";
         $mail->Body   .= "\nMessage:\n$message\n";
